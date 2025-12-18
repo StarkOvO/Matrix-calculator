@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>矩阵计算器</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📐 矩阵计算器</h1>
+            <p class="subtitle">支持各种矩阵运算</p>
+        </header>
+
+        <!-- 矩阵A输入区域 -->
+        <section class="matrix-section">
+            <div class="matrix-header">
+                <h2>矩阵 A</h2>
+                <div class="size-controls">
+                    <label>行: <input type="number" id="rowsA" value="3" min="1" max="10"></label>
+                    <label>列: <input type="number" id="colsA" value="3" min="1" max="10"></label>
+                    <button onclick="resizeMatrix('A')">调整</button>
+                </div>
+            </div>
+            <div class="matrix-container" id="matrixA"></div>
+            <div class="matrix-actions">
+                <button onclick="clearMatrix('A')" class="btn-secondary">清空</button>
+                <button onclick="fillRandom('A')" class="btn-secondary">随机填充</button>
+                <button onclick="fillIdentity('A')" class="btn-secondary">单位矩阵</button>
+            </div>
+            <div class="single-operations">
+                <h4>单矩阵运算</h4>
+                <div class="btn-group">
+                    <button onclick="calculateDeterminant('A')">行列式</button>
+                    <button onclick="calculateInverse('A')">逆矩阵</button>
+                    <button onclick="calculateTranspose('A')">转置</button>
+                    <button onclick="calculateRank('A')">秩</button>
+                    <button onclick="calculateTrace('A')">迹</button>
+                </div>
+                <div class="btn-group">
+                    <button onclick="calculatePower('A')">幂运算</button>
+                    <button onclick="calculateEigenvalues('A')">特征值</button>
+                    <button onclick="rowEchelon('A')">行阶梯形</button>
+                    <button onclick="reducedRowEchelon('A')">简化行阶梯形</button>
+                </div>
+                <div class="scalar-operation">
+                    <label>标量乘法: </label>
+                    <input type="number" id="scalarA" value="2" step="0.1">
+                    <button onclick="scalarMultiply('A')">×标量</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 双矩阵运算 -->
+        <section class="binary-operations">
+            <h3>双矩阵运算</h3>
+            <div class="btn-group">
+                <button onclick="matrixAdd()">A + B</button>
+                <button onclick="matrixSubtract()">A - B</button>
+                <button onclick="matrixMultiply()">A × B</button>
+                <button onclick="matrixMultiplyReverse()">B × A</button>
+            </div>
+        </section>
+
+        <!-- 矩阵B输入区域 -->
+        <section class="matrix-section">
+            <div class="matrix-header">
+                <h2>矩阵 B</h2>
+                <div class="size-controls">
+                    <label>行: <input type="number" id="rowsB" value="3" min="1" max="10"></label>
+                    <label>列: <input type="number" id="colsB" value="3" min="1" max="10"></label>
+                    <button onclick="resizeMatrix('B')">调整</button>
+                </div>
+            </div>
+            <div class="matrix-container" id="matrixB"></div>
+            <div class="matrix-actions">
+                <button onclick="clearMatrix('B')" class="btn-secondary">清空</button>
+                <button onclick="fillRandom('B')" class="btn-secondary">随机填充</button>
+                <button onclick="fillIdentity('B')" class="btn-secondary">单位矩阵</button>
+            </div>
+            <div class="single-operations">
+                <h4>单矩阵运算</h4>
+                <div class="btn-group">
+                    <button onclick="calculateDeterminant('B')">行列式</button>
+                    <button onclick="calculateInverse('B')">逆矩阵</button>
+                    <button onclick="calculateTranspose('B')">转置</button>
+                    <button onclick="calculateRank('B')">秩</button>
+                    <button onclick="calculateTrace('B')">迹</button>
+                </div>
+                <div class="btn-group">
+                    <button onclick="calculatePower('B')">幂运算</button>
+                    <button onclick="calculateEigenvalues('B')">特征值</button>
+                    <button onclick="rowEchelon('B')">行阶梯形</button>
+                    <button onclick="reducedRowEchelon('B')">简化行阶梯形</button>
+                </div>
+                <div class="scalar-operation">
+                    <label>标量乘法: </label>
+                    <input type="number" id="scalarB" value="2" step="0.1">
+                    <button onclick="scalarMultiply('B')">×标量</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 结果显示区域 -->
+        <section class="result-section">
+            <h3>计算结果</h3>
+            <div class="result-actions">
+                <button onclick="copyResultToA()" class="btn-secondary">复制到A</button>
+                <button onclick="copyResultToB()" class="btn-secondary">复制到B</button>
+                <button onclick="clearResult()" class="btn-secondary">清空</button>
+            </div>
+            <div id="result" class="result-container">
+                <p class="placeholder">结果将在这里显示...</p>
+            </div>
+            <div id="steps" class="steps-container" style="display: none;">
+                <h4>计算步骤</h4>
+                <div id="stepsContent"></div>
+            </div>
+        </section>
+
+        <!-- 帮助信息 -->
+        <section class="help-section">
+            <details>
+                <summary>📖 使用说明</summary>
+                <div class="help-content">
+                    <p><strong>输入格式：</strong></p>
+                    <ul>
+                        <li>支持整数、小数、分数（如 1/3）</li>
+                        <li>可使用简单表达式（如 2+3, 4*5）</li>
+                    </ul>
+                    <p><strong>功能说明：</strong></p>
+                    <ul>
+                        <li><strong>行列式</strong>：计算方阵的行列式值</li>
+                        <li><strong>逆矩阵</strong>：计算方阵的逆（如果存在）</li>
+                        <li><strong>转置</strong>：行列互换</li>
+                        <li><strong>秩</strong>：矩阵的秩</li>
+                        <li><strong>迹</strong>：主对角线元素之和</li>
+                        <li><strong>特征值</strong>：计算方阵特征值</li>
+                        <li><strong>行阶梯形</strong>：高斯消元结果</li>
+                        <li><strong>简化行阶梯形</strong>：Gauss-Jordan消元结果</li>
+                    </ul>
+                </div>
+            </details>
+        </section>
+
+        <footer>
+            <p>© 2025 矩阵计算器 | 移动端友好</p>
+        </footer>
+    </div>
+
+    <script src="matrix.js"></script>
+</body>
+</html>

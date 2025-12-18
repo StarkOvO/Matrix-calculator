@@ -1,0 +1,534 @@
+/* 全局样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #4a90d9;
+    --primary-dark: #357abd;
+    --secondary-color: #6c757d;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+    --light-bg: #f8f9fa;
+    --border-color: #dee2e6;
+    --text-color: #333;
+    --shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 10px;
+    color: var(--text-color);
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    overflow: hidden;
+}
+
+/* 头部样式 */
+header {
+    background: linear-gradient(135deg, #4a90d9 0%, #357abd 100%);
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 1.8rem;
+    margin-bottom: 5px;
+}
+
+header .subtitle {
+    opacity: 0.9;
+    font-size: 0.9rem;
+}
+
+/* 矩阵区域样式 */
+.matrix-section {
+    padding: 15px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.matrix-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    gap: 10px;
+}
+
+.matrix-header h2 {
+    color: var(--primary-color);
+    font-size: 1.3rem;
+}
+
+.size-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.size-controls label {
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.size-controls input {
+    width: 50px;
+    padding: 5px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    text-align: center;
+}
+
+.size-controls button {
+    padding: 5px 12px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* 矩阵容器 */
+.matrix-container {
+    overflow-x: auto;
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.matrix-table {
+    border-collapse: collapse;
+    position: relative;
+}
+
+.matrix-table::before,
+.matrix-table::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 8px;
+    border: 2px solid var(--primary-color);
+}
+
+.matrix-table::before {
+    left: -12px;
+    border-right: none;
+    border-radius: 8px 0 0 8px;
+}
+
+.matrix-table::after {
+    right: -12px;
+    border-left: none;
+    border-radius: 0 8px 8px 0;
+}
+
+.matrix-table td {
+    padding: 3px;
+}
+
+.matrix-table input {
+    width: 55px;
+    height: 35px;
+    text-align: center;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.matrix-table input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(74, 144, 217, 0.2);
+}
+
+/* 矩阵操作按钮 */
+.matrix-actions {
+    display: flex;
+    gap: 8px;
+    margin: 10px 0;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* 单矩阵运算区域 */
+.single-operations {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px dashed var(--border-color);
+}
+
+.single-operations h4 {
+    color: var(--secondary-color);
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* 按钮组 */
+.btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.btn-group button {
+    padding: 8px 12px;
+    background: var(--light-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.btn-group button:hover {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.btn-group button:active {
+    transform: scale(0.98);
+}
+
+/* 标量运算 */
+.scalar-operation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.scalar-operation input {
+    width: 60px;
+    padding: 6px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    text-align: center;
+}
+
+.scalar-operation button {
+    padding: 6px 12px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* 双矩阵运算区域 */
+.binary-operations {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 15px;
+    text-align: center;
+}
+
+.binary-operations h3 {
+    color: var(--primary-dark);
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+}
+
+.binary-operations .btn-group button {
+    background: white;
+    font-weight: 500;
+    padding: 10px 20px;
+}
+
+/* 次要按钮 */
+.btn-secondary {
+    padding: 6px 12px;
+    background: white !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    color: var(--secondary-color) !important;
+    transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+    background: var(--light-bg) !important;
+    color: var(--text-color) !important;
+}
+
+/* 结果区域 */
+.result-section {
+    padding: 15px;
+    background: #fafbfc;
+}
+
+.result-section h3 {
+    color: var(--success-color);
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.result-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.result-container {
+    background: white;
+    border: 2px solid var(--success-color);
+    border-radius: 8px;
+    padding: 15px;
+    min-height: 80px;
+    overflow-x: auto;
+}
+
+.result-container .placeholder {
+    color: #aaa;
+    text-align: center;
+    font-style: italic;
+}
+
+/* 结果矩阵显示 */
+.result-matrix {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.result-matrix .matrix-display {
+    border-collapse: collapse;
+    position: relative;
+    margin: 10px 20px;
+}
+
+.result-matrix .matrix-display::before,
+.result-matrix .matrix-display::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 8px;
+    border: 2px solid var(--success-color);
+}
+
+.result-matrix .matrix-display::before {
+    left: -12px;
+    border-right: none;
+    border-radius: 8px 0 0 8px;
+}
+
+.result-matrix .matrix-display::after {
+    right: -12px;
+    border-left: none;
+    border-radius: 0 8px 8px 0;
+}
+
+.result-matrix .matrix-display td {
+    padding: 8px 12px;
+    text-align: center;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+}
+
+.result-label {
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.result-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--success-color);
+    text-align: center;
+}
+
+/* 步骤显示 */
+.steps-container {
+    margin-top: 15px;
+    padding: 15px;
+    background: #fff8e1;
+    border-radius: 8px;
+    border: 1px solid #ffcc02;
+}
+
+.steps-container h4 {
+    color: #f57c00;
+    margin-bottom: 10px;
+}
+
+#stepsContent {
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+#stepsContent .step {
+    margin: 10px 0;
+    padding: 10px;
+    background: white;
+    border-radius: 4px;
+    border-left: 3px solid var(--primary-color);
+}
+
+/* 帮助区域 */
+.help-section {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+}
+
+.help-section details {
+    background: var(--light-bg);
+    border-radius: 8px;
+    padding: 12px;
+}
+
+.help-section summary {
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--primary-color);
+}
+
+.help-content {
+    margin-top: 15px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.help-content ul {
+    margin-left: 20px;
+    margin-top: 5px;
+}
+
+.help-content li {
+    margin: 5px 0;
+}
+
+/* 页脚 */
+footer {
+    text-align: center;
+    padding: 15px;
+    background: var(--light-bg);
+    color: var(--secondary-color);
+    font-size: 0.8rem;
+}
+
+/* 错误提示 */
+.error-message {
+    background: #ffebee;
+    color: var(--danger-color);
+    padding: 10px;
+    border-radius: 4px;
+    text-align: center;
+    border: 1px solid #ffcdd2;
+}
+
+/* 移动端响应式 */
+@media (max-width: 600px) {
+    body {
+        padding: 5px;
+    }
+    
+    header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .matrix-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .size-controls {
+        width: 100%;
+        justify-content: flex-start;
+    }
+    
+    .matrix-table input {
+        width: 45px;
+        height: 32px;
+        font-size: 12px;
+    }
+    
+    .btn-group button {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+    }
+    
+    .binary-operations .btn-group button {
+        padding: 8px 15px;
+    }
+    
+    .result-matrix .matrix-display td {
+        padding: 6px 8px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 400px) {
+    .matrix-table input {
+        width: 38px;
+        height: 28px;
+        font-size: 11px;
+    }
+    
+    .btn-group button {
+        padding: 5px 8px;
+        font-size: 0.75rem;
+    }
+}
+
+/* 动画效果 */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.result-container:not(:empty) {
+    animation: fadeIn 0.3s ease;
+}
+
+/* 加载状态 */
+.loading {
+    text-align: center;
+    padding: 20px;
+    color: var(--secondary-color);
+}
+
+.loading::after {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--primary-color);
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
