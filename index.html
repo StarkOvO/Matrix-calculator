@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>矩阵计算器</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app">
+        <!-- 顶部导航 -->
+        <nav class="navbar">
+            <div class="logo">
+                <span class="logo-icon">⊞</span>
+                <span class="logo-text">Matrix</span>
+            </div>
+            <div class="mode-toggle">
+                <button id="singleModeBtn" class="mode-btn active" onclick="switchMode('single')">单矩阵</button>
+                <button id="multiModeBtn" class="mode-btn" onclick="switchMode('multi')">双矩阵</button>
+            </div>
+        </nav>
+
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <!-- 单矩阵模式 -->
+            <div id="singleMode" class="mode-panel active">
+                <div class="card matrix-card">
+                    <div class="card-header">
+                        <h3>输入矩阵</h3>
+                        <div class="matrix-size">
+                            <select id="singleRows" onchange="resizeSingleMatrix()">
+                                <option value="2">2行</option>
+                                <option value="3" selected>3行</option>
+                                <option value="4">4行</option>
+                                <option value="5">5行</option>
+                                <option value="6">6行</option>
+                            </select>
+                            <span>×</span>
+                            <select id="singleCols" onchange="resizeSingleMatrix()">
+                                <option value="2">2列</option>
+                                <option value="3" selected>3列</option>
+                                <option value="4">4列</option>
+                                <option value="5">5列</option>
+                                <option value="6">6列</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="matrix-wrapper">
+                        <div class="matrix-bracket left"></div>
+                        <div id="singleMatrix" class="matrix-grid"></div>
+                        <div class="matrix-bracket right"></div>
+                    </div>
+                    <div class="quick-actions">
+                        <button onclick="clearSingleMatrix()" class="action-btn">
+                            <span class="btn-icon">🗑️</span> 清空
+                        </button>
+                        <button onclick="fillRandomSingle()" class="action-btn">
+                            <span class="btn-icon">🎲</span> 随机
+                        </button>
+                        <button onclick="fillIdentitySingle()" class="action-btn">
+                            <span class="btn-icon">𝐈</span> 单位阵
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 运算按钮区 -->
+                <div class="card operations-card">
+                    <h3>选择运算</h3>
+                    <div class="ops-grid">
+                        <button onclick="calcSingle('det')" class="op-btn">
+                            <span class="op-icon">|A|</span>
+                            <span class="op-name">行列式</span>
+                        </button>
+                        <button onclick="calcSingle('inv')" class="op-btn">
+                            <span class="op-icon">A⁻¹</span>
+                            <span class="op-name">逆矩阵</span>
+                        </button>
+                        <button onclick="calcSingle('trans')" class="op-btn">
+                            <span class="op-icon">Aᵀ</span>
+                            <span class="op-name">转置</span>
+                        </button>
+                        <button onclick="calcSingle('rank')" class="op-btn">
+                            <span class="op-icon">r</span>
+                            <span class="op-name">秩</span>
+                        </button>
+                        <button onclick="calcSingle('trace')" class="op-btn">
+                            <span class="op-icon">tr</span>
+                            <span class="op-name">迹</span>
+                        </button>
+                        <button onclick="calcSingle('eigen')" class="op-btn">
+                            <span class="op-icon">λ</span>
+                            <span class="op-name">特征值</span>
+                        </button>
+                        <button onclick="calcSingle('rref')" class="op-btn">
+                            <span class="op-icon">⇓</span>
+                            <span class="op-name">行简化</span>
+                        </button>
+                        <button onclick="calcSingle('power')" class="op-btn">
+                            <span class="op-icon">Aⁿ</span>
+                            <span class="op-name">幂</span>
+                        </button>
+                    </div>
+                    <div class="scalar-row">
+                        <span>标量乘:</span>
+                        <input type="number" id="singleScalar" value="2" step="0.5">
+                        <button onclick="calcSingle('scalar')" class="scalar-btn">计算</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 多矩阵模式 -->
+            <div id="multiMode" class="mode-panel">
+                <div class="multi-container">
+                    <!-- 矩阵A -->
+                    <div class="card matrix-card compact">
+                        <div class="card-header">
+                            <h3>矩阵 A</h3>
+                            <div class="matrix-size">
+                                <select id="rowsA" onchange="resizeMatrix('A')">
+                                    <option value="2">2</option>
+                                    <option value="3" selected>3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                                <span>×</span>
+                                <select id="colsA" onchange="resizeMatrix('A')">
+                                    <option value="2">2</option>
+                                    <option value="3" selected>3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="matrix-wrapper small">
+                            <div class="matrix-bracket left"></div>
+                            <div id="matrixA" class="matrix-grid"></div>
+                            <div class="matrix-bracket right"></div>
+                        </div>
+                        <div class="quick-actions compact">
+                            <button onclick="clearMatrix('A')" class="action-btn small">清空</button>
+                            <button onclick="fillRandom('A')" class="action-btn small">随机</button>
+                        </div>
+                    </div>
+
+                    <!-- 运算符选择 -->
+                    <div class="operator-panel">
+                        <button onclick="binaryOp('add')" class="op-select">A + B</button>
+                        <button onclick="binaryOp('sub')" class="op-select">A − B</button>
+                        <button onclick="binaryOp('mul')" class="op-select">A × B</button>
+                        <button onclick="binaryOp('mulR')" class="op-select">B × A</button>
+                    </div>
+
+                    <!-- 矩阵B -->
+                    <div class="card matrix-card compact">
+                        <div class="card-header">
+                            <h3>矩阵 B</h3>
+                            <div class="matrix-size">
+                                <select id="rowsB" onchange="resizeMatrix('B')">
+                                    <option value="2">2</option>
+                                    <option value="3" selected>3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                                <span>×</span>
+                                <select id="colsB" onchange="resizeMatrix('B')">
+                                    <option value="2">2</option>
+                                    <option value="3" selected>3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="matrix-wrapper small">
+                            <div class="matrix-bracket left"></div>
+                            <div id="matrixB" class="matrix-grid"></div>
+                            <div class="matrix-bracket right"></div>
+                        </div>
+                        <div class="quick-actions compact">
+                            <button onclick="clearMatrix('B')" class="action-btn small">清空</button>
+                            <button onclick="fillRandom('B')" class="action-btn small">随机</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 单独对A或B操作 -->
+                <div class="card individual-ops">
+                    <div class="ind-row">
+                        <span>对 A:</span>
+                        <button onclick="calcMatrix('A', 'det')">行列式</button>
+                        <button onclick="calcMatrix('A', 'inv')">逆</button>
+                        <button onclick="calcMatrix('A', 'trans')">转置</button>
+                        <button onclick="calcMatrix('A', 'rank')">秩</button>
+                    </div>
+                    <div class="ind-row">
+                        <span>对 B:</span>
+                        <button onclick="calcMatrix('B', 'det')">行列式</button>
+                        <button onclick="calcMatrix('B', 'inv')">逆</button>
+                        <button onclick="calcMatrix('B', 'trans')">转置</button>
+                        <button onclick="calcMatrix('B', 'rank')">秩</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 结果区域（两种模式共用） -->
+            <div class="card result-card">
+                <div class="result-header">
+                    <h3>📊 计算结果</h3>
+                    <div class="result-actions">
+                        <button onclick="copyToClipboard()" class="result-btn" title="复制">📋</button>
+                        <button onclick="useAsInput()" class="result-btn" title="用作输入">↩️</button>
+                        <button onclick="clearResult()" class="result-btn" title="清除">✕</button>
+                    </div>
+                </div>
+                <div id="resultArea" class="result-area">
+                    <div class="empty-state">
+                        <span class="empty-icon">📐</span>
+                        <p>输入矩阵并选择运算</p>
+                        <p class="hint">结果将显示在这里</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- 帮助悬浮按钮 -->
+        <button class="help-fab" onclick="toggleHelp()">?</button>
+
+        <!-- 帮助面板 -->
+        <div id="helpPanel" class="help-panel">
+            <div class="help-content">
+                <button class="help-close" onclick="toggleHelp()">×</button>
+                <h3>💡 使用帮助</h3>
+                <div class="help-section">
+                    <h4>输入格式</h4>
+                    <ul>
+                        <li>整数: <code>5</code>, <code>-3</code></li>
+                        <li>小数: <code>3.14</code>, <code>-0.5</code></li>
+                        <li>分数: <code>1/3</code>, <code>-2/5</code></li>
+                    </ul>
+                </div>
+                <div class="help-section">
+                    <h4>模式说明</h4>
+                    <ul>
+                        <li><strong>单矩阵</strong>: 对一个矩阵进行各种运算</li>
+                        <li><strong>双矩阵</strong>: 两个矩阵间的运算（加减乘）</li>
+                    </ul>
+                </div>
+                <div class="help-section">
+                    <h4>快捷键</h4>
+                    <ul>
+                        <li>方向键: 在单元格间移动</li>
+                        <li>Enter/Tab: 下一个单元格</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>© 2025 矩阵计算器 for mobile</p>
+        </footer>
+    </div>
+
+    <script src="matrix.js"></script>
+</body>
+</html>
